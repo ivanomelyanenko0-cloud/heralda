@@ -1,0 +1,116 @@
+.hld-meta-box .form-table th {
+	width: 180px;
+}
+
+.hld-meta-box .description {
+	margin-top: 0.25em;
+}
+
+.hld-swatches {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6em;
+}
+
+.hld-swatch {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.3em;
+	width: 72px;
+	cursor: pointer;
+	padding: 0.4em;
+	border: 2px solid transparent;
+	border-radius: 4px;
+	text-align: center;
+}
+
+.hld-swatch input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.hld-swatch.is-selected {
+	border-color: #2271b1;
+	background: #f0f6fc;
+}
+
+.hld-swatch__preview {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: 600;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.hld-swatch__preview--custom {
+	background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+}
+
+.hld-swatch__preview--none {
+	font-size: 10px;
+	color: #666;
+	background: #f0f0f1;
+}
+
+.hld-swatch__preview--icon {
+	background: #f0f0f1;
+	color: #1e1e1e;
+}
+
+.hld-swatch__label {
+	font-size: 11px;
+	line-height: 1.2;
+}
+
+.hld-content-templates {
+	margin: 1em 0;
+}
+
+.hld-design-presets {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+}
+
+.hld-content-templates__buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin: 0.5em 0;
+}
+
+.hld-bar-preview-wrap {
+	margin: 0 0 1.5em;
+}
+
+.hld-preview-frame {
+	position: relative;
+	border: 1px dashed #c3c4c7;
+	border-radius: 4px;
+	overflow: hidden;
+	min-height: 60px;
+	margin-bottom: 0.25em;
+	padding: 0;
+}
+
+/*
+ * frontend.css is enqueued as-is on this screen (see hrld_enqueue_admin_assets())
+ * so the preview stays visually accurate - this override only neutralizes
+ * .hld-bar's fixed positioning, which would otherwise escape the frame and
+ * cover the admin page. position:relative (not static) is intentional so
+ * .hld-bar__dismiss's position:absolute still anchors to the bar itself.
+ */
+.hld-preview-frame .hld-bar {
+	position: relative !important;
+	z-index: auto !important;
+	left: auto;
+	right: auto;
+	top: auto;
+	bottom: auto;
+}

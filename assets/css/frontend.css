@@ -1,0 +1,309 @@
+.hld-bar {
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: 99999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 0.75em;
+	padding: 0.75em 2.5em 0.75em 1em;
+	box-sizing: border-box;
+	font-size: 14px;
+	line-height: 1.4;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.hld-bar--top {
+	top: 0;
+}
+
+.hld-bar--bottom {
+	bottom: 0;
+}
+
+.hld-bar--inline {
+	position: static;
+	width: 100%;
+}
+
+.hld-bar--hiding {
+	opacity: 0;
+}
+
+.hld-bar__inner p {
+	margin: 0;
+}
+
+/*
+ * Generic sibling spacing for freeform content (heading followed by a
+ * paragraph, a paragraph followed by a list, etc.) - without this, two
+ * block-level children with their own margin:0 rules (see headings below)
+ * render flush against each other with zero gap.
+ */
+.hld-bar__text > * + * {
+	margin-top: 0.35em;
+}
+
+.hld-bar__inner p + p {
+	margin-top: 0.5em;
+}
+
+/*
+ * Content guardrails: post_content is freeform rich text (wp_kses_post()
+ * only whitelists tags/attributes, it doesn't size anything), so without
+ * these a pasted full-resolution image or a default-styled heading/list can
+ * balloon the bar's height and clash with the ~18px decoration icon. Scoped
+ * to .hld-bar__inner (not .hld-bar__text) so it also covers Heralda Pro's
+ * A/B test variant B content, which replaces the .hld-bar__text wrapper too.
+ */
+.hld-bar__inner img {
+	max-height: 36px !important;
+	width: auto !important;
+	max-width: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.hld-bar__text h1,
+.hld-bar__text h2,
+.hld-bar__text h3,
+.hld-bar__text h4,
+.hld-bar__text h5,
+.hld-bar__text h6 {
+	margin: 0;
+	font-size: 1.15em;
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.hld-bar__text blockquote {
+	margin: 0;
+	padding-left: 0.75em;
+	border-left: 2px solid currentColor;
+	font-style: italic;
+}
+
+.hld-bar__text ul,
+.hld-bar__text ol {
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.15em 1em;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	vertical-align: middle;
+}
+
+.hld-bar__text li {
+	display: inline-flex;
+	align-items: center;
+}
+
+.hld-bar__text ul li::before {
+	content: "•";
+	margin-right: 0.4em;
+	opacity: 0.8;
+}
+
+.hld-bar__text ol {
+	counter-reset: hld-ol;
+}
+
+.hld-bar__text ol li {
+	counter-increment: hld-ol;
+}
+
+.hld-bar__text ol li::before {
+	content: counter(hld-ol) ".";
+	margin-right: 0.4em;
+	opacity: 0.8;
+}
+
+.hld-bar__cta {
+	display: inline-block;
+	padding: 0.35em 1em;
+	border: 1px solid currentColor;
+	border-radius: 3px;
+	text-decoration: none;
+	color: inherit;
+	white-space: nowrap;
+}
+
+/*
+ * Without an icon, .hld-bar__inner stacks in normal flow: .hld-bar__text is
+ * a block, so a CTA button/social links/secondary-CTA appended after it
+ * (Free's own CTA anchor, or content Pro appends via hrld_render_bar_body)
+ * starts a new line with zero gap unless given one explicitly. With an
+ * icon, .hld-bar__inner switches to a flex row (align-items:center) where
+ * everything sits side by side, so a top margin here would misalign it -
+ * scoped to :not(.hld-bar--has-icon) for that reason.
+ */
+.hld-bar:not(.hld-bar--has-icon) .hld-bar__inner > .hld-bar__text ~ * {
+	margin-top: 0.5em;
+}
+
+.hld-bar__countdown {
+	display: inline-block;
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	margin-left: 0.5em;
+}
+
+.hld-bar__dismiss {
+	position: absolute;
+	top: 50%;
+	right: 0.75em;
+	transform: translateY(-50%);
+	background: transparent;
+	border: 0;
+	color: inherit;
+	font-size: 1.4em;
+	line-height: 1;
+	cursor: pointer;
+	padding: 0.2em 0.4em;
+}
+
+body {
+	padding-top: var(--hld-bar-offset-top, 0px);
+	padding-bottom: var(--hld-bar-offset-bottom, 0px);
+	transition: padding 0.2s ease;
+}
+
+/* Floating bar style: inset margins, rounded corners, shadow. */
+.hld-bar--floating {
+	left: 1em;
+	right: 1em;
+	border-radius: 10px;
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+}
+
+.hld-bar--floating.hld-bar--top {
+	top: 1em;
+}
+
+.hld-bar--floating.hld-bar--bottom {
+	bottom: 1em;
+}
+
+.hld-bar--floating.hld-bar--inline {
+	left: auto;
+	right: auto;
+}
+
+/* Text + icon layout. */
+.hld-bar--has-icon .hld-bar__inner {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+}
+
+.hld-bar__icon {
+	display: inline-flex;
+	flex-shrink: 0;
+	line-height: 0;
+}
+
+.hld-bar__icon-svg {
+	display: block;
+}
+
+/* Text alignment. */
+.hld-bar--align-left {
+	justify-content: flex-start;
+}
+
+/*
+ * Font family: applied at the .hld-bar level (not just .hld-bar__text) so
+ * it's inherited by the CTA button and any Pro-added content too, keeping
+ * the whole bar visually consistent instead of just the message text.
+ */
+.hld-bar--font-sans {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.hld-bar--font-serif {
+	font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+.hld-bar--font-mono {
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.hld-bar--font-condensed {
+	font-family: "Arial Narrow", "Helvetica Neue Condensed", Arial, sans-serif;
+}
+
+/* Text style presets, scoped to the message only (CTA/social buttons keep their own separate style options). */
+.hld-bar--textstyle-bold .hld-bar__text {
+	font-weight: 700;
+}
+
+.hld-bar--textstyle-uppercase .hld-bar__text {
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.hld-bar--textstyle-italic .hld-bar__text {
+	font-style: italic;
+}
+
+/* CTA button styles: outline (default, unchanged) / solid / pill. */
+.hld-bar__cta--solid {
+	background: var(--hld-text, currentColor);
+	color: var(--hld-bg, #1e1e1e);
+	border-color: transparent;
+}
+
+.hld-bar__cta--pill {
+	border-radius: 999px;
+}
+
+/* Entrance animations. */
+.hld-bar--anim-slide.hld-bar--top {
+	animation: hld-bar-slide-down 0.35s ease;
+}
+
+.hld-bar--anim-slide.hld-bar--bottom {
+	animation: hld-bar-slide-up 0.35s ease;
+}
+
+.hld-bar--anim-slide.hld-bar--inline {
+	animation: hld-bar-fade-in 0.35s ease;
+}
+
+.hld-bar--anim-fade {
+	animation: hld-bar-fade-in 0.35s ease;
+}
+
+@keyframes hld-bar-slide-down {
+	from {
+		transform: translateY(-100%);
+	}
+
+	to {
+		transform: translateY(0);
+	}
+}
+
+@keyframes hld-bar-slide-up {
+	from {
+		transform: translateY(100%);
+	}
+
+	to {
+		transform: translateY(0);
+	}
+}
+
+@keyframes hld-bar-fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}

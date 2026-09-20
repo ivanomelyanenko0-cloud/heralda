@@ -3,7 +3,7 @@ Contributors: lukystile
 Tags: announcement bar, notification bar, sticky bar, promo bar, countdown
 Requires at least: 5.9
 Tested up to: 7.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -57,10 +57,26 @@ Yes, use the `[heralda_bar id="123"]` shortcode with the ID of the bar you want 
 
 == Screenshots ==
 
-1. Editing a bar in the admin.
-2. A sticky announcement bar on the frontend.
+1. Minimal design preset - a quiet, full-width announcement bar.
+2. Bold design preset - a high-contrast, uppercase promo bar.
+3. Corporate design preset - a floating notice with the Info icon.
+4. Playful design preset - a friendly, fully-rounded Pill bar.
+5. Promo design preset - a Pill bar with a live countdown.
 
 == Changelog ==
+
+= 1.0.2 =
+* New "Pill" bar style (fully rounded, floating) alongside Full-width and Floating.
+* 2 new color presets: Terracotta and Sage (10 total).
+* New "Info" icon (7 built-in icons total).
+* New "Promo" design preset (Sage colors, Pill shape, pill CTA) - 5 one-click design presets now available.
+* Refreshed the Minimal, Bold, Corporate, and Playful design presets: Minimal now uses the Dark color preset and Sans-serif font; Bold, Corporate, and Playful now align left instead of center; Playful now uses the Terracotta color preset and Pill bar style.
+* New "Right" text alignment, alongside Center and Left.
+* New "CTA position" field: Inline next to the text (default), Right edge of the bar, or Below the text.
+* The message and CTA button now always sit on the same row when they fit, regardless of whether an icon is set - previously that only happened with an icon selected, so most bars without one showed the button stranded on its own line underneath.
+* Fixed the Promo countdown rendering nested inside the message text, which forced it (and the CTA button next to it) onto its own line even when there was room to share the first one.
+* The dismiss ("x") button now always sits in the top-right corner instead of vertically centered, so it stays put on bars with wrapped or multi-line content instead of drifting toward the middle.
+* Fixed the "Solid" CTA button rendering unreadable (same color as its own background) in the bar editor's live preview for every color preset - a preview-only bug, the frontend was never affected.
 
 = 1.0.1 =
 * Renumbered ahead of the first public release - nothing above 1.0.0 was ever published, so this replaces what was internally 1.1.0 through 1.4.1 with a single real-world version.

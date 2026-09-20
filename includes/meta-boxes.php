@@ -206,6 +206,7 @@ function hrld_render_meta_box( $post ) {
 	$cta_style    = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_cta_style', true ), array_keys( hrld_get_cta_style_options() ), 'outline' );
 	$animation    = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_animation', true ), array_keys( hrld_get_animation_options() ), 'none' );
 	$align        = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_align', true ), array_keys( hrld_get_align_options() ), 'center' );
+	$cta_position = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_cta_position', true ), array_keys( hrld_get_cta_position_options() ), 'inline' );
 	$font         = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_font', true ), array_keys( hrld_get_font_options() ), '' );
 	$text_style   = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_text_style', true ), array_keys( hrld_get_text_style_options() ), 'normal' );
 
@@ -350,6 +351,17 @@ function hrld_render_meta_box( $post ) {
 						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $align, $slug ); ?>><?php echo esc_html( $label ); ?></option>
 					<?php endforeach; ?>
 				</select>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="hrld_cta_position"><?php esc_html_e( 'CTA position', 'heralda' ); ?></label></th>
+			<td>
+				<select id="hrld_cta_position" name="_hrld_cta_position">
+					<?php foreach ( hrld_get_cta_position_options() as $slug => $label ) : ?>
+						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $cta_position, $slug ); ?>><?php echo esc_html( $label ); ?></option>
+					<?php endforeach; ?>
+				</select>
+				<p class="description"><?php esc_html_e( 'Where the button sits relative to the message - independent of Text alignment above.', 'heralda' ); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -515,6 +527,9 @@ function hrld_save_meta_box( $post_id ) {
 
 	$align = isset( $_POST['_hrld_align'] ) ? sanitize_text_field( wp_unslash( $_POST['_hrld_align'] ) ) : '';
 	update_post_meta( $post_id, '_hrld_align', hrld_validate_enum( $align, array_keys( hrld_get_align_options() ), 'center' ) );
+
+	$cta_position = isset( $_POST['_hrld_cta_position'] ) ? sanitize_text_field( wp_unslash( $_POST['_hrld_cta_position'] ) ) : '';
+	update_post_meta( $post_id, '_hrld_cta_position', hrld_validate_enum( $cta_position, array_keys( hrld_get_cta_position_options() ), 'inline' ) );
 
 	$font = isset( $_POST['_hrld_font'] ) ? sanitize_text_field( wp_unslash( $_POST['_hrld_font'] ) ) : '';
 	update_post_meta( $post_id, '_hrld_font', hrld_validate_enum( $font, array_keys( hrld_get_font_options() ), '' ) );

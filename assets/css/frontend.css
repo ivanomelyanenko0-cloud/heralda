@@ -132,19 +132,6 @@
 	white-space: nowrap;
 }
 
-/*
- * Without an icon, .hld-bar__inner stacks in normal flow: .hld-bar__text is
- * a block, so a CTA button/social links/secondary-CTA appended after it
- * (Free's own CTA anchor, or content Pro appends via hrld_render_bar_body)
- * starts a new line with zero gap unless given one explicitly. With an
- * icon, .hld-bar__inner switches to a flex row (align-items:center) where
- * everything sits side by side, so a top margin here would misalign it -
- * scoped to :not(.hld-bar--has-icon) for that reason.
- */
-.hld-bar:not(.hld-bar--has-icon) .hld-bar__inner > .hld-bar__text ~ * {
-	margin-top: 0.5em;
-}
-
 .hld-bar__countdown {
 	display: inline-block;
 	font-variant-numeric: tabular-nums;
@@ -154,9 +141,8 @@
 
 .hld-bar__dismiss {
 	position: absolute;
-	top: 50%;
-	right: 0.75em;
-	transform: translateY(-50%);
+	top: 0.6em;
+	right: 0.6em;
 	background: transparent;
 	border: 0;
 	color: inherit;
@@ -172,31 +158,54 @@ body {
 	transition: padding 0.2s ease;
 }
 
-/* Floating bar style: inset margins, rounded corners, shadow. */
-.hld-bar--floating {
+/*
+ * Floating bar style: inset margins, rounded corners, shadow. Pill shares
+ * the same inset positioning and shadow, just with a fully rounded radius
+ * instead of a modest one - it's the "floating" family, not a separate
+ * layout.
+ */
+.hld-bar--floating,
+.hld-bar--pill {
 	left: 1em;
 	right: 1em;
-	border-radius: 10px;
 	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
 }
 
-.hld-bar--floating.hld-bar--top {
+.hld-bar--floating {
+	border-radius: 10px;
+}
+
+.hld-bar--pill {
+	border-radius: 999px;
+}
+
+.hld-bar--floating.hld-bar--top,
+.hld-bar--pill.hld-bar--top {
 	top: 1em;
 }
 
-.hld-bar--floating.hld-bar--bottom {
+.hld-bar--floating.hld-bar--bottom,
+.hld-bar--pill.hld-bar--bottom {
 	bottom: 1em;
 }
 
-.hld-bar--floating.hld-bar--inline {
+.hld-bar--floating.hld-bar--inline,
+.hld-bar--pill.hld-bar--inline {
 	left: auto;
 	right: auto;
 }
 
-/* Text + icon layout. */
-.hld-bar--has-icon .hld-bar__inner {
+/*
+ * Content layout: icon (if any), text, and whatever follows it (CTA button,
+ * social links, Pro's secondary CTA) sit in a row and wrap together if the
+ * bar gets too narrow - not just when there's an icon. `gap` handles
+ * spacing on both axes, including between wrapped rows, so nothing else
+ * needs a manual margin here.
+ */
+.hld-bar__inner {
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
 	gap: 0.6em;
 }
 
@@ -210,9 +219,32 @@ body {
 	display: block;
 }
 
-/* Text alignment. */
+/* Text alignment: positions the icon+text+CTA group within the bar. */
 .hld-bar--align-left {
 	justify-content: flex-start;
+}
+
+.hld-bar--align-right {
+	justify-content: flex-end;
+}
+
+/*
+ * CTA position: positions the CTA *within* that group, independent of Text
+ * alignment above. Default 'inline' needs no rule - the CTA is just another
+ * item in the .hld-bar__inner flex row. 'edge' lets .hld-bar__inner grow to
+ * fill the bar so the CTA's auto margin has room to push it all the way to
+ * the far side; 'below' forces it onto its own wrapped line.
+ */
+.hld-bar--cta-edge .hld-bar__inner {
+	flex: 1 1 auto;
+}
+
+.hld-bar--cta-edge .hld-bar__cta {
+	margin-left: auto;
+}
+
+.hld-bar--cta-below .hld-bar__cta {
+	flex-basis: 100%;
 }
 
 /*

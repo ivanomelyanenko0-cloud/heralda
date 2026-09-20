@@ -144,6 +144,7 @@
 			var ctaStyle = $( '#hrld_cta_style' ).val();
 			var animation = $( '#hrld_animation' ).val();
 			var align = $( '#hrld_align' ).val();
+			var ctaPosition = $( '#hrld_cta_position' ).val();
 			var font = $( '#hrld_font' ).val();
 			var textStyle = $( '#hrld_text_style' ).val();
 			var type = $( '#hrld_type' ).val();
@@ -154,12 +155,17 @@
 			var classes = [ 'hld-bar', 'hld-bar--preview', 'hld-bar--static' ];
 			if ( 'floating' === barStyle ) {
 				classes.push( 'hld-bar--floating' );
+			} else if ( 'pill' === barStyle ) {
+				classes.push( 'hld-bar--pill' );
 			}
 			if ( 'none' !== animation ) {
 				classes.push( 'hld-bar--anim-' + animation );
 			}
 			if ( 'center' !== align ) {
 				classes.push( 'hld-bar--align-' + align );
+			}
+			if ( 'inline' !== ctaPosition ) {
+				classes.push( 'hld-bar--cta-' + ctaPosition );
 			}
 			if ( iconSvg ) {
 				classes.push( 'hld-bar--has-icon' );
@@ -194,7 +200,18 @@
 
 			var $bar = $( '#hrld_preview_bar' );
 			$bar.attr( 'class', state.classes.join( ' ' ) );
-			$bar.css( { background: state.bg, color: state.text } );
+			// --hld-bg/--hld-text (not just the plain background/color props)
+			// mirror the style string render.php outputs on the real bar -
+			// .hld-bar__cta--solid reads those custom properties to pick
+			// readable colors, and without them here it fell back to
+			// currentColor/#1e1e1e for both background and text, producing an
+			// unreadable same-on-same button in the preview only.
+			$bar.css( {
+				background: state.bg,
+				color: state.text,
+				'--hld-bg': state.bg,
+				'--hld-text': state.text
+			} );
 			$( '#hrld_preview_inner' ).html( state.innerHtml );
 		}
 
@@ -207,7 +224,7 @@
 		// not at document-ready time.
 		$( '#hrld_color_swatches, .hld-swatches--icons' ).on( 'change', 'input[type="radio"]', hldRebuildPreview );
 		$( '.hld-color-field' ).on( 'change', hldRebuildPreview );
-		$( '#hrld_bar_style, #hrld_cta_style, #hrld_animation, #hrld_align, #hrld_font, #hrld_text_style, #hrld_type, #hrld_dismissible' ).on( 'change', hldRebuildPreview );
+		$( '#hrld_bar_style, #hrld_cta_style, #hrld_animation, #hrld_align, #hrld_cta_position, #hrld_font, #hrld_text_style, #hrld_type, #hrld_dismissible' ).on( 'change', hldRebuildPreview );
 		$( 'input[name="_hrld_cta_text"], input[name="_hrld_cta_url"]' ).on( 'input', hldRebuildPreview );
 		$( '#content' ).on( 'input', hldRebuildPreview );
 		$( document ).on( 'tinymce-editor-setup', function ( event, editor ) {

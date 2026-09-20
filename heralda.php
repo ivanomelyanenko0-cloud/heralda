@@ -3,7 +3,7 @@
  * Plugin Name:       Heralda
  * Plugin URI:        https://cognitolab.net/products/heralda
  * Description:       A lightweight sticky announcement / promo bar for the top or bottom of your site.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Requires at least: 5.9
  * Requires PHP:      7.4
  * Author:            CognitoLab
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HRLD_VERSION', '1.0.1' );
+define( 'HRLD_VERSION', '1.0.2' );
 define( 'HRLD_PLUGIN_FILE', __FILE__ );
 define( 'HRLD_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'HRLD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

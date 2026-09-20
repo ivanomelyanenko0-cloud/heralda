@@ -87,13 +87,14 @@ function hrld_render_single_bar( $bar, $inline = false ) {
 		$text_color = $presets[ $color_preset ]['text'];
 	}
 
-	$icon       = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_icon', true ), array_keys( hrld_get_bar_icons() ), '' );
-	$bar_style  = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_bar_style', true ), array_keys( hrld_get_bar_style_options() ), 'full' );
-	$cta_style  = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_cta_style', true ), array_keys( hrld_get_cta_style_options() ), 'outline' );
-	$animation  = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_animation', true ), array_keys( hrld_get_animation_options() ), 'none' );
-	$align      = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_align', true ), array_keys( hrld_get_align_options() ), 'center' );
-	$font       = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_font', true ), array_keys( hrld_get_font_options() ), '' );
-	$text_style = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_text_style', true ), array_keys( hrld_get_text_style_options() ), 'normal' );
+	$icon         = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_icon', true ), array_keys( hrld_get_bar_icons() ), '' );
+	$bar_style    = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_bar_style', true ), array_keys( hrld_get_bar_style_options() ), 'full' );
+	$cta_style    = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_cta_style', true ), array_keys( hrld_get_cta_style_options() ), 'outline' );
+	$animation    = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_animation', true ), array_keys( hrld_get_animation_options() ), 'none' );
+	$align        = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_align', true ), array_keys( hrld_get_align_options() ), 'center' );
+	$cta_position = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_cta_position', true ), array_keys( hrld_get_cta_position_options() ), 'inline' );
+	$font         = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_font', true ), array_keys( hrld_get_font_options() ), '' );
+	$text_style   = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_text_style', true ), array_keys( hrld_get_text_style_options() ), 'normal' );
 
 	$bg_color   = $bg_color ? $bg_color : '#1e1e1e';
 	$text_color = $text_color ? $text_color : '#ffffff';
@@ -110,12 +111,17 @@ function hrld_render_single_bar( $bar, $inline = false ) {
 	$classes[] = $sticky ? 'hld-bar--sticky' : 'hld-bar--static';
 	if ( 'floating' === $bar_style ) {
 		$classes[] = 'hld-bar--floating';
+	} elseif ( 'pill' === $bar_style ) {
+		$classes[] = 'hld-bar--pill';
 	}
 	if ( 'none' !== $animation ) {
 		$classes[] = 'hld-bar--anim-' . $animation;
 	}
 	if ( 'center' !== $align ) {
 		$classes[] = 'hld-bar--align-' . $align;
+	}
+	if ( 'inline' !== $cta_position ) {
+		$classes[] = 'hld-bar--cta-' . sanitize_html_class( $cta_position );
 	}
 	if ( $icon ) {
 		$classes[] = 'hld-bar--has-icon';
@@ -131,11 +137,17 @@ function hrld_render_single_bar( $bar, $inline = false ) {
 	$body = wpautop( $body );
 	$body = do_shortcode( $body );
 
+	$body = '<div class="hld-bar__text">' . $body . '</div>';
+
 	if ( 'promo' === $type ) {
+		// A sibling of .hld-bar__text, not nested inside it - .hld-bar__text
+		// can contain a block-level <p>, and a block element always starts a
+		// new line for anything after it even inside a flex item, so nesting
+		// the countdown there would strand it under the message instead of
+		// beside it on the shared .hld-bar__inner flex row.
 		$body .= '<span class="hld-bar__countdown" data-hld-countdown></span>';
 	}
 
-	$body = '<div class="hld-bar__text">' . $body . '</div>';
 	if ( $icon ) {
 		$body = '<span class="hld-bar__icon">' . hrld_render_bar_icon_svg( $icon ) . '</span>' . $body;
 	}

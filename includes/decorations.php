@@ -56,6 +56,16 @@ function hrld_get_color_presets() {
 			'bg'    => '#334155',
 			'text'  => '#f1f5f9',
 		),
+		'terracotta' => array(
+			'label' => __( 'Terracotta', 'heralda' ),
+			'bg'    => '#c67139',
+			'text'  => '#fff5ea',
+		),
+		'sage'       => array(
+			'label' => __( 'Sage', 'heralda' ),
+			'bg'    => '#7a8a5e',
+			'text'  => '#fbf6ec',
+		),
 	);
 }
 
@@ -91,6 +101,10 @@ function hrld_get_bar_icons() {
 			'label' => __( 'Tag', 'heralda' ),
 			'path'  => 'M20.59 13.41L11 3.83A2 2 0 0 0 9.59 3H4a1 1 0 0 0-1 1v5.59a2 2 0 0 0 .59 1.41l9.58 9.58a2 2 0 0 0 2.83 0l4.59-4.59a2 2 0 0 0 0-2.58zM7.5 7.5h.01',
 		),
+		'info'      => array(
+			'label' => __( 'Info', 'heralda' ),
+			'path'  => 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v6M12 7h.01',
+		),
 	);
 }
 
@@ -98,6 +112,7 @@ function hrld_get_bar_style_options() {
 	return array(
 		'full'     => __( 'Full-width (edge to edge)', 'heralda' ),
 		'floating' => __( 'Floating (inset, rounded, shadow)', 'heralda' ),
+		'pill'     => __( 'Pill (inset, fully rounded, shadow)', 'heralda' ),
 	);
 }
 
@@ -121,6 +136,22 @@ function hrld_get_align_options() {
 	return array(
 		'center' => __( 'Center', 'heralda' ),
 		'left'   => __( 'Left', 'heralda' ),
+		'right'  => __( 'Right', 'heralda' ),
+	);
+}
+
+/**
+ * Where the CTA button sits relative to the message text. Independent of
+ * "Text alignment" above: alignment positions the icon+text+CTA group as a
+ * whole within the bar, this positions the CTA within that group.
+ *
+ * @return array<string,string>
+ */
+function hrld_get_cta_position_options() {
+	return array(
+		'inline' => __( 'Inline, next to the text', 'heralda' ),
+		'edge'   => __( 'Right edge of the bar', 'heralda' ),
+		'below'  => __( 'Below the text', 'heralda' ),
 	);
 }
 
@@ -180,9 +211,9 @@ function hrld_get_text_style_options() {
  * no persistent "which preset is this" state, so applying one is a
  * one-time starting point (like the content templates in
  * content-templates.php), not a locked mode; every field stays fully
- * editable afterward. Kept in sync BY HAND with the PRESETS object in
- * assets/js/admin.js, which is what actually applies these values in the
- * bar editor screen.
+ * editable afterward. This is the single source of truth: admin.js reads
+ * these values straight off the wp_localize_script() data (see
+ * meta-boxes.php), it doesn't keep its own copy to stay in sync with.
  *
  * @return array<string,array{label:string,color_preset:string,bar_style:string,cta_style:string,animation:string,align:string,font:string,text_style:string}>
  */
@@ -190,12 +221,12 @@ function hrld_get_design_presets() {
 	return array(
 		'minimal'   => array(
 			'label'        => __( 'Minimal', 'heralda' ),
-			'color_preset' => 'light',
+			'color_preset' => 'dark',
 			'bar_style'    => 'full',
 			'cta_style'    => 'outline',
 			'animation'    => 'none',
 			'align'        => 'left',
-			'font'         => '',
+			'font'         => 'sans',
 			'text_style'   => 'normal',
 		),
 		'bold'      => array(
@@ -204,7 +235,7 @@ function hrld_get_design_presets() {
 			'bar_style'    => 'full',
 			'cta_style'    => 'solid',
 			'animation'    => 'slide',
-			'align'        => 'center',
+			'align'        => 'left',
 			'font'         => 'condensed',
 			'text_style'   => 'uppercase',
 		),
@@ -214,19 +245,29 @@ function hrld_get_design_presets() {
 			'bar_style'    => 'floating',
 			'cta_style'    => 'outline',
 			'animation'    => 'fade',
-			'align'        => 'center',
+			'align'        => 'left',
 			'font'         => 'sans',
 			'text_style'   => 'normal',
 		),
 		'playful'   => array(
 			'label'        => __( 'Playful', 'heralda' ),
-			'color_preset' => 'violet',
-			'bar_style'    => 'floating',
+			'color_preset' => 'terracotta',
+			'bar_style'    => 'pill',
 			'cta_style'    => 'pill',
 			'animation'    => 'fade',
-			'align'        => 'center',
+			'align'        => 'left',
 			'font'         => 'sans',
 			'text_style'   => 'bold',
+		),
+		'promo'     => array(
+			'label'        => __( 'Promo', 'heralda' ),
+			'color_preset' => 'sage',
+			'bar_style'    => 'pill',
+			'cta_style'    => 'pill',
+			'animation'    => 'fade',
+			'align'        => 'left',
+			'font'         => 'sans',
+			'text_style'   => 'normal',
 		),
 	);
 }

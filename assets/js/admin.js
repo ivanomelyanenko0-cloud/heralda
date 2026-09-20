@@ -192,8 +192,14 @@
 			// Mutable state passed through window.heraldaPreviewFilters before
 			// anything is written to the DOM, so a registered filter (Pro's
 			// gradient background / secondary CTA) can override or append to
-			// what Free already computed.
-			var state = { classes: classes, bg: colors.bg, text: colors.text, innerHtml: inner };
+			// what Free already computed. bgLayer is a seam for a filter that
+			// wants to paint over state.bg (e.g. Pro's gradient background
+			// presets) without it becoming the color --hld-bg exposes for
+			// contrast (see below) - mirrors how hrld_bar_container_style on
+			// the PHP side appends its own `background:` after Free's rather
+			// than replacing it, so a gradient there doesn't touch the solid
+			// color computed into --hld-bg from get_post_meta() either.
+			var state = { classes: classes, bg: colors.bg, text: colors.text, innerHtml: inner, bgLayer: '' };
 			$.each( window.heraldaPreviewFilters, function ( i, fn ) {
 				fn( state );
 			} );
@@ -205,13 +211,21 @@
 			// .hld-bar__cta--solid reads those custom properties to pick
 			// readable colors, and without them here it fell back to
 			// currentColor/#1e1e1e for both background and text, producing an
-			// unreadable same-on-same button in the preview only.
+			// unreadable same-on-same button in the preview only. Always set
+			// from state.bg/state.text specifically (never state.bgLayer),
+			// so they stay a plain, valid color even when bgLayer is a
+			// gradient - `color: var(--hld-bg)` with a gradient value is an
+			// invalid declaration a browser drops, which silently breaks
+			// Solid CTA contrast the same way omitting these vars did.
 			$bar.css( {
 				background: state.bg,
 				color: state.text,
 				'--hld-bg': state.bg,
 				'--hld-text': state.text
 			} );
+			if ( state.bgLayer ) {
+				$bar.css( 'background', state.bgLayer );
+			}
 			$( '#hrld_preview_inner' ).html( state.innerHtml );
 		}
 

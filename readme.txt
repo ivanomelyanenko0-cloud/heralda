@@ -8,21 +8,44 @@ Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A lightweight sticky announcement / promo bar for the top or bottom of your site, with dismiss, scheduling, page targeting, and a built-in countdown.
+Show a sticky announcement or promo bar, schedule when it runs, target which pages see it, and let visitors dismiss it - no page builder, no bloat.
 
 == Description ==
 
-**Heralda** adds a clean, fast, sticky bar to the top or bottom of your site for announcements, promotions, and time-limited offers.
+A message that matters gets lost in a sidebar widget or ignored as just another popup. **Heralda puts it where visitors actually look** - a sticky bar at the top or bottom of your site, gone the moment it's no longer useful.
 
 **[Try the live demo](https://founder.cognitolab.net/heralda-demo/index.html)** — a real WordPress site with a sample bar already published, no install needed.
 
-* **Announcement bars** for site-wide notices, maintenance windows, or news.
-* **Promo bars** with a built-in countdown timer for limited-time offers.
-* **Dismissible** — visitors can close the bar, and it stays hidden for as long as you choose.
-* **Scheduling** — set a start and end date so a bar appears and disappears automatically.
-* **Page targeting** — show a bar site-wide or only on the pages you pick.
-* **One bar at a time** — if several bars are eligible to show, Heralda shows the most recently published one, so your site never looks cluttered.
-* **Fast** — the bar's CSS/JS is only loaded on pages where a bar will actually show, and the frontend script has no jQuery dependency.
+= What you can announce =
+
+* **Announcements** — site-wide notices, maintenance windows, or news.
+* **Promotions** — time-limited offers with a built-in countdown timer.
+* **One bar at a time** — if several bars are eligible to show, Heralda shows the most recently published one, so your site never looks cluttered with competing banners.
+
+= Looks good in one click =
+
+* **5 design presets** (Minimal, Bold, Corporate, Playful, Promo) that set a matching style in one click. Everything stays editable afterwards.
+* **10 colour presets**, or pick your own with the custom colour pickers.
+* **3 bar styles**: Full-width, Floating (inset with shadow), or Pill (fully rounded).
+* **CTA button styles** (Outline, Solid, Pill) and position (inline next to the text, right edge of the bar, or below the text).
+* **7 built-in icons**, entrance animation (slide-in or fade-in), and left/centre/right text alignment.
+* **Typography**: use your theme's font or pick sans-serif, serif, monospace or bold condensed, plus normal, bold, uppercase or italic text styles.
+
+= Built to get out of the way =
+
+* **Dismissible.** Visitors close it once, and it stays hidden for as long as you choose.
+* **Scheduling.** Set a start and end date so a bar appears and disappears automatically — no need to remember to take it down.
+* **Page targeting.** Show a bar site-wide or only on the pages you pick.
+* **Fast.** CSS/JS load only on pages where a bar will actually show, and the frontend script has no jQuery dependency.
+* **No external services and no tracking.** Nothing leaves your site.
+
+= Who it's for =
+
+* **Site owners** running a sale, a launch, or a maintenance notice who want it seen without resorting to a popup.
+* **Agencies** who need a quick, on-brand promo bar for a client site without installing a heavier marketing plugin.
+* **Content teams** running scheduled campaigns who don't want to remember to manually take a bar down afterward.
+
+= Want more? =
 
 Need more than one bar at a time, extra bar types (social share, WooCommerce free-shipping progress), advanced targeting (by user role or device), a repeating schedule, analytics, or A/B testing? Those are available in **[Heralda Pro](https://cognitolab.net/products/heralda)** — a separate, optional add-on. Everything listed above is fully functional in the free version with no restrictions or nag screens.
 

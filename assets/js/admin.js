@@ -147,6 +147,8 @@
 			var ctaPosition = $( '#hrld_cta_position' ).val();
 			var font = $( '#hrld_font' ).val();
 			var textStyle = $( '#hrld_text_style' ).val();
+			var border = $( '#hrld_border' ).val();
+			var iconAnim = $( '#hrld_icon_animation' ).val();
 			var type = $( '#hrld_type' ).val();
 			var dismissible = $( '#hrld_dismissible' ).is( ':checked' );
 			var ctaText = $( 'input[name="_hrld_cta_text"]' ).val();
@@ -169,6 +171,12 @@
 			}
 			if ( iconSvg ) {
 				classes.push( 'hld-bar--has-icon' );
+				if ( 'none' !== iconAnim ) {
+					classes.push( 'hld-bar--icon-' + iconAnim );
+				}
+			}
+			if ( 'none' !== border ) {
+				classes.push( 'hld-bar--border-' + border );
 			}
 			if ( font ) {
 				classes.push( 'hld-bar--font-' + font );
@@ -238,7 +246,7 @@
 		// not at document-ready time.
 		$( '#hrld_color_swatches, .hld-swatches--icons' ).on( 'change', 'input[type="radio"]', hldRebuildPreview );
 		$( '.hld-color-field' ).on( 'change', hldRebuildPreview );
-		$( '#hrld_bar_style, #hrld_cta_style, #hrld_animation, #hrld_align, #hrld_cta_position, #hrld_font, #hrld_text_style, #hrld_type, #hrld_dismissible' ).on( 'change', hldRebuildPreview );
+		$( '#hrld_bar_style, #hrld_cta_style, #hrld_animation, #hrld_align, #hrld_cta_position, #hrld_font, #hrld_text_style, #hrld_border, #hrld_icon_animation, #hrld_type, #hrld_dismissible' ).on( 'change', hldRebuildPreview );
 		$( 'input[name="_hrld_cta_text"], input[name="_hrld_cta_url"]' ).on( 'input', hldRebuildPreview );
 		$( '#content' ).on( 'input', hldRebuildPreview );
 		$( document ).on( 'tinymce-editor-setup', function ( event, editor ) {

@@ -209,6 +209,8 @@ function hrld_render_meta_box( $post ) {
 	$cta_position = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_cta_position', true ), array_keys( hrld_get_cta_position_options() ), 'inline' );
 	$font         = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_font', true ), array_keys( hrld_get_font_options() ), '' );
 	$text_style   = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_text_style', true ), array_keys( hrld_get_text_style_options() ), 'normal' );
+	$border       = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_border', true ), array_keys( hrld_get_border_options() ), 'none' );
+	$icon_anim    = hrld_validate_enum( get_post_meta( $post->ID, '_hrld_icon_animation', true ), array_keys( hrld_get_icon_animation_options() ), 'none' );
 
 	$color_presets = hrld_get_color_presets();
 	$bar_icons     = hrld_get_bar_icons();
@@ -314,6 +316,17 @@ function hrld_render_meta_box( $post ) {
 			</td>
 		</tr>
 		<tr>
+			<th scope="row"><label for="hrld_icon_animation"><?php esc_html_e( 'Icon animation', 'heralda' ); ?></label></th>
+			<td>
+				<select id="hrld_icon_animation" name="_hrld_icon_animation">
+					<?php foreach ( hrld_get_icon_animation_options() as $slug => $label ) : ?>
+						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $icon_anim, $slug ); ?>><?php echo esc_html( $label ); ?></option>
+					<?php endforeach; ?>
+				</select>
+				<p class="description"><?php esc_html_e( 'Plays a few times when the bar appears, then stops. Skipped for visitors who turn on reduced motion in their system settings.', 'heralda' ); ?></p>
+			</td>
+		</tr>
+		<tr>
 			<th scope="row"><label for="hrld_bar_style"><?php esc_html_e( 'Bar style', 'heralda' ); ?></label></th>
 			<td>
 				<select id="hrld_bar_style" name="_hrld_bar_style">
@@ -321,6 +334,17 @@ function hrld_render_meta_box( $post ) {
 						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $bar_style, $slug ); ?>><?php echo esc_html( $label ); ?></option>
 					<?php endforeach; ?>
 				</select>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="hrld_border"><?php esc_html_e( 'Border', 'heralda' ); ?></label></th>
+			<td>
+				<select id="hrld_border" name="_hrld_border">
+					<?php foreach ( hrld_get_border_options() as $slug => $label ) : ?>
+						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $border, $slug ); ?>><?php echo esc_html( $label ); ?></option>
+					<?php endforeach; ?>
+				</select>
+				<p class="description"><?php esc_html_e( 'Drawn in the bar\'s text color.', 'heralda' ); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -396,6 +420,7 @@ function hrld_render_meta_box( $post ) {
 					<?php esc_html_e( 'Stay hidden for (days):', 'heralda' ); ?>
 					<input type="number" id="hrld_dismiss_days" name="_hrld_dismiss_days" value="<?php echo esc_attr( $dismiss_days ); ?>" min="0" class="small-text" />
 				</label>
+				<p class="description"><?php esc_html_e( 'Use 0 to hide it only until the visitor closes their browser.', 'heralda' ); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -536,6 +561,12 @@ function hrld_save_meta_box( $post_id ) {
 
 	$text_style = isset( $_POST['_hrld_text_style'] ) ? sanitize_text_field( wp_unslash( $_POST['_hrld_text_style'] ) ) : '';
 	update_post_meta( $post_id, '_hrld_text_style', hrld_validate_enum( $text_style, array_keys( hrld_get_text_style_options() ), 'normal' ) );
+
+	$border = isset( $_POST['_hrld_border'] ) ? sanitize_text_field( wp_unslash( $_POST['_hrld_border'] ) ) : '';
+	update_post_meta( $post_id, '_hrld_border', hrld_validate_enum( $border, array_keys( hrld_get_border_options() ), 'none' ) );
+
+	$icon_anim = isset( $_POST['_hrld_icon_animation'] ) ? sanitize_text_field( wp_unslash( $_POST['_hrld_icon_animation'] ) ) : '';
+	update_post_meta( $post_id, '_hrld_icon_animation', hrld_validate_enum( $icon_anim, array_keys( hrld_get_icon_animation_options() ), 'none' ) );
 
 	$meta = array();
 	foreach ( hrld_get_extra_meta_box_fields() as $field ) {

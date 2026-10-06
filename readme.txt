@@ -3,7 +3,7 @@ Contributors: lukystile
 Tags: announcement bar, notification bar, sticky bar, promo bar, countdown
 Requires at least: 5.9
 Tested up to: 7.1
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -25,15 +25,15 @@ A message that matters gets lost in a sidebar widget or ignored as just another 
 = Looks good in one click =
 
 * **5 design presets** (Minimal, Bold, Corporate, Playful, Promo) that set a matching style in one click. Everything stays editable afterwards.
-* **10 colour presets**, or pick your own with the custom colour pickers.
-* **3 bar styles**: Full-width, Floating (inset with shadow), or Pill (fully rounded).
+* **16 colour presets**, every one readable (WCAG AA contrast), or pick your own with the custom colour pickers.
+* **3 bar styles**: Full-width, Floating (inset with shadow), or Pill (fully rounded), with an optional border: thin, thick, dashed, or an accent line on the inner edge.
 * **CTA button styles** (Outline, Solid, Pill) and position (inline next to the text, right edge of the bar, or below the text).
-* **7 built-in icons**, entrance animation (slide-in or fade-in), and left/centre/right text alignment.
+* **7 built-in icons** with an optional pulse, wiggle or bounce that plays a few times and stops, entrance animation (slide-in or fade-in), and left/centre/right text alignment.
 * **Typography**: use your theme's font or pick sans-serif, serif, monospace or bold condensed, plus normal, bold, uppercase or italic text styles.
 
 = Built to get out of the way =
 
-* **Dismissible.** Visitors close it once, and it stays hidden for as long as you choose.
+* **Dismissible.** Visitors close it once, and it stays hidden for as many days as you choose, or until they close their browser.
 * **Scheduling.** Set a start and end date so a bar appears and disappears automatically — no need to remember to take it down.
 * **Page targeting.** Show a bar site-wide or only on the pages you pick.
 * **Fast.** CSS/JS load only on pages where a bar will actually show, and the frontend script has no jQuery dependency.
@@ -87,6 +87,14 @@ Yes, use the `[heralda_bar id="123"]` shortcode with the ID of the bar you want 
 5. Promo design preset - a Pill bar with a live countdown.
 
 == Changelog ==
+
+= 1.1.0 =
+* 6 new color presets: Midnight, Teal, Rose, Indigo, Sand, and Forest (16 total).
+* Emerald, Terracotta, and Sage are slightly darker so white text on them meets WCAG AA contrast (4.5:1). Bars using these presets will look a touch deeper after updating.
+* New "Border" option: Thin, Thick, Dashed, or an accent line on the edge facing the page. Always drawn in the bar's text color.
+* New "Icon animation" option: Pulse, Wiggle, or Bounce. Plays three times when the bar appears, then stops, and is skipped for visitors who turn on reduced motion.
+* Setting "Stay hidden for" to 0 days now keeps a dismissed bar hidden until the visitor closes their browser. Before, it came back on the very next page.
+* For developers: new `hrld_frontend_bar_data` filter, `window.hldBarGates` client-side visibility gates, and a `hld:barshown` event.
 
 = 1.0.2 =
 * New "Pill" bar style (fully rounded, floating) alongside Full-width and Floating.

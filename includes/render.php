@@ -95,6 +95,8 @@ function hrld_render_single_bar( $bar, $inline = false ) {
 	$cta_position = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_cta_position', true ), array_keys( hrld_get_cta_position_options() ), 'inline' );
 	$font         = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_font', true ), array_keys( hrld_get_font_options() ), '' );
 	$text_style   = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_text_style', true ), array_keys( hrld_get_text_style_options() ), 'normal' );
+	$border       = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_border', true ), array_keys( hrld_get_border_options() ), 'none' );
+	$icon_anim    = hrld_validate_enum( get_post_meta( $bar->ID, '_hrld_icon_animation', true ), array_keys( hrld_get_icon_animation_options() ), 'none' );
 
 	$bg_color   = $bg_color ? $bg_color : '#1e1e1e';
 	$text_color = $text_color ? $text_color : '#ffffff';
@@ -125,6 +127,12 @@ function hrld_render_single_bar( $bar, $inline = false ) {
 	}
 	if ( $icon ) {
 		$classes[] = 'hld-bar--has-icon';
+		if ( 'none' !== $icon_anim ) {
+			$classes[] = 'hld-bar--icon-' . $icon_anim;
+		}
+	}
+	if ( 'none' !== $border ) {
+		$classes[] = 'hld-bar--border-' . $border;
 	}
 	if ( $font ) {
 		$classes[] = 'hld-bar--font-' . sanitize_html_class( $font );

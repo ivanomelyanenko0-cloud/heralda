@@ -12,6 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Every pair here must clear WCAG AA (4.5:1) for normal-size text - the bar
+ * message is regular body text, not "large text", so the 3:1 large-text
+ * allowance doesn't apply.
+ *
  * @return array<string,array{label:string,bg:string,text:string}>
  */
 function hrld_get_color_presets() {
@@ -33,7 +37,7 @@ function hrld_get_color_presets() {
 		),
 		'emerald'    => array(
 			'label' => __( 'Emerald', 'heralda' ),
-			'bg'    => '#059669',
+			'bg'    => '#047857',
 			'text'  => '#ffffff',
 		),
 		'crimson'    => array(
@@ -58,19 +62,49 @@ function hrld_get_color_presets() {
 		),
 		'terracotta' => array(
 			'label' => __( 'Terracotta', 'heralda' ),
-			'bg'    => '#c67139',
+			'bg'    => '#a65a2a',
 			'text'  => '#fff5ea',
 		),
 		'sage'       => array(
 			'label' => __( 'Sage', 'heralda' ),
-			'bg'    => '#7a8a5e',
+			'bg'    => '#5e6b47',
 			'text'  => '#fbf6ec',
+		),
+		'midnight'   => array(
+			'label' => __( 'Midnight', 'heralda' ),
+			'bg'    => '#0f172a',
+			'text'  => '#e2e8f0',
+		),
+		'teal'       => array(
+			'label' => __( 'Teal', 'heralda' ),
+			'bg'    => '#0f766e',
+			'text'  => '#ffffff',
+		),
+		'rose'       => array(
+			'label' => __( 'Rose', 'heralda' ),
+			'bg'    => '#be123c',
+			'text'  => '#ffffff',
+		),
+		'indigo'     => array(
+			'label' => __( 'Indigo', 'heralda' ),
+			'bg'    => '#4338ca',
+			'text'  => '#ffffff',
+		),
+		'sand'       => array(
+			'label' => __( 'Sand', 'heralda' ),
+			'bg'    => '#f3e8d2',
+			'text'  => '#3d2f1f',
+		),
+		'forest'     => array(
+			'label' => __( 'Forest', 'heralda' ),
+			'bg'    => '#14532d',
+			'text'  => '#f0fdf4',
 		),
 	);
 }
 
 /**
- * Six fixed icons. SVG `path` data is static/trusted (authored here, not
+ * Fixed icon set. SVG `path` data is static/trusted (authored here, not
  * user input) - only the lookup slug needs validating before use.
  *
  * @return array<string,array{label:string,path:string}>
@@ -116,6 +150,24 @@ function hrld_get_bar_style_options() {
 	);
 }
 
+/**
+ * Bar border. Always drawn in the bar's own text color (see frontend.css),
+ * so it can't clash with a color preset and needs no picker of its own.
+ * 'accent-edge' is a single heavier line on the side facing the page
+ * content: under a top bar, over a bottom bar.
+ *
+ * @return array<string,string>
+ */
+function hrld_get_border_options() {
+	return array(
+		'none'        => __( 'None', 'heralda' ),
+		'thin'        => __( 'Thin', 'heralda' ),
+		'thick'       => __( 'Thick', 'heralda' ),
+		'dashed'      => __( 'Dashed', 'heralda' ),
+		'accent-edge' => __( 'Accent line on the inner edge', 'heralda' ),
+	);
+}
+
 function hrld_get_cta_style_options() {
 	return array(
 		'outline' => __( 'Outline', 'heralda' ),
@@ -129,6 +181,23 @@ function hrld_get_animation_options() {
 		'none'  => __( 'None', 'heralda' ),
 		'slide' => __( 'Slide in', 'heralda' ),
 		'fade'  => __( 'Fade in', 'heralda' ),
+	);
+}
+
+/**
+ * Icon micro-animation. Plays a few times when the bar appears, then stops -
+ * never loops, so it stays under the 5-second limit WCAG sets for motion
+ * that starts on its own - and is switched off entirely for visitors who
+ * ask their OS for reduced motion.
+ *
+ * @return array<string,string>
+ */
+function hrld_get_icon_animation_options() {
+	return array(
+		'none'   => __( 'None', 'heralda' ),
+		'pulse'  => __( 'Pulse', 'heralda' ),
+		'wiggle' => __( 'Wiggle', 'heralda' ),
+		'bounce' => __( 'Bounce', 'heralda' ),
 	);
 }
 

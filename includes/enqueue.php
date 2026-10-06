@@ -22,15 +22,6 @@ function hrld_maybe_enqueue_frontend_assets() {
 	wp_enqueue_style( 'hld-frontend', HRLD_PLUGIN_URL . 'assets/css/frontend.css', array(), HRLD_VERSION );
 	wp_enqueue_script( 'hld-frontend', HRLD_PLUGIN_URL . 'assets/js/frontend.js', array(), HRLD_VERSION, true );
 
-	// Hides an already-dismissed bar the instant its markup lands in the DOM
-	// (right after render.php's wp_footer output, before frontend.js's own
-	// DOMContentLoaded-driven init() gets to it) so there's no flash of a
-	// bar the visitor already dismissed. No per-bar dynamic value is needed -
-	// each bar's own data-hld-bar-id attribute (already in its markup) is
-	// enough - so this is a single static snippet shared by every bar rather
-	// than one inline <script> per bar.
-	wp_add_inline_script( 'hld-frontend', hrld_get_dismiss_guard_js(), 'before' );
-
 	$has_promo = false;
 	$data      = array();
 
@@ -47,7 +38,7 @@ function hrld_maybe_enqueue_frontend_assets() {
 			}
 		}
 
-		$data[] = array(
+		$bar_data = array(
 			'id'           => $bar->ID,
 			'type'         => $type,
 			'position'     => get_post_meta( $bar->ID, '_hrld_position', true ),
@@ -56,6 +47,13 @@ function hrld_maybe_enqueue_frontend_assets() {
 			'dismissDays'  => (int) get_post_meta( $bar->ID, '_hrld_dismiss_days', true ),
 			'countdownEnd' => $countdown_end,
 		);
+
+		/**
+		 * Per-bar data handed to the frontend as heraldaData.bars[] - the
+		 * `info` argument every window.hldBarGates gate receives. Extra keys
+		 * only; Free's own keys above are read by frontend.js/countdown.js.
+		 */
+		$data[] = apply_filters( 'hrld_frontend_bar_data', $bar_data, $bar );
 	}
 
 	wp_localize_script(
@@ -74,19 +72,6 @@ function hrld_maybe_enqueue_frontend_assets() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'hrld_maybe_enqueue_frontend_assets' );
-
-/**
- * Static (no PHP-interpolated values) anti-flash guard, attached to the
- * 'hld-frontend' handle via wp_add_inline_script() instead of a raw
- * per-bar <script> tag in render.php. Mirrors the isDismissed() check
- * frontend.js's own init() already runs, just early enough to avoid a
- * flash of an already-dismissed bar.
- *
- * @return string
- */
-function hrld_get_dismiss_guard_js() {
-	return "(function(){try{document.querySelectorAll('.hld-bar[data-hld-bar-id]').forEach(function(el){var id=el.getAttribute('data-hld-bar-id');var raw=localStorage.getItem('hrld_dismissed_'+id);if(!raw){return;}var data=JSON.parse(raw);if(data&&data.expires&&Date.now()<data.expires){el.style.display='none';}});}catch(e){}})();";
-}
 
 /**
  * Add any bars referenced by [heralda_bar id="..."] in the current singular

@@ -6,6 +6,10 @@
  * against a documented registry of extension points below. It never carries
  * any conditional "is premium" logic - it fires unconditionally for whoever
  * hooks in, keeping the Free plugin fully self-contained.
+ *
+ * Frontend counterparts (JS, documented in assets/js/frontend.js):
+ * window.hldBarGates (client-side show/hide rules), the `hld:barshown` event
+ * (fires once per bar actually shown), and window.hldStackBars().
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -35,6 +39,8 @@ function hrld_get_extension_points() {
 			'hrld_render_bar_body'     => 'filter',
 			// (array $templates) => array   extra slug => array('label','html') content-template picker entries.
 			'hrld_content_templates'   => 'filter',
+			// (array $data, WP_Post $bar) => array   per-bar frontend data, passed to window.hldBarGates gates as `info`.
+			'hrld_frontend_bar_data'   => 'filter',
 			// Fires with the saved post ID and sanitized meta array.
 			'hrld_after_bar_save'      => 'action',
 			// Fires with the WP_Post about to render.

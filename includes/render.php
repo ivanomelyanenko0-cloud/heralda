@@ -57,6 +57,8 @@ function hrld_bar_body_allowed_html() {
 	);
 
 	foreach ( array( 'span', 'div', 'a' ) as $tag ) {
+		$allowed[ $tag ]['role']                         = true;
+		$allowed[ $tag ]['aria-live']                    = true;
 		$allowed[ $tag ]['data-hld-countdown']          = true;
 		$allowed[ $tag ]['data-hld-pro-cart-remaining']  = true;
 		$allowed[ $tag ]['data-hld-pro-threshold']       = true;
@@ -153,7 +155,10 @@ function hrld_render_single_bar( $bar, $inline = false ) {
 		// new line for anything after it even inside a flex item, so nesting
 		// the countdown there would strand it under the message instead of
 		// beside it on the shared .hld-bar__inner flex row.
-		$body .= '<span class="hld-bar__countdown" data-hld-countdown></span>';
+		// role="timer" with live updates off: the bar itself is a polite
+		// live region, and a ticking clock inside one would otherwise be
+		// read out by screen readers every second.
+		$body .= '<span class="hld-bar__countdown" data-hld-countdown role="timer" aria-live="off"></span>';
 	}
 
 	if ( $icon ) {
@@ -174,18 +179,34 @@ function hrld_render_single_bar( $bar, $inline = false ) {
 
 	$body = apply_filters( 'hrld_render_bar_body', $body, $bar, $type );
 	$body = wp_kses( $body, hrld_bar_body_allowed_html() );
+
+	/**
+	 * Accessible name of a fixed bar's region landmark. The markup sits at
+	 * the end of the page (wp_footer) whatever its visual position, so the
+	 * landmark is how a screen reader user finds it without reading the
+	 * whole page first.
+	 *
+	 * @param string  $label
+	 * @param WP_Post $bar
+	 */
+	$region_label = apply_filters( 'hrld_bar_region_label', __( 'Announcement', 'heralda' ), $bar );
 	?>
 	<div
 		class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>"
 		data-hld-bar-id="<?php echo esc_attr( $bar->ID ); ?>"
 		data-hld-position="<?php echo esc_attr( $position ? $position : 'top' ); ?>"
 		style="<?php echo esc_attr( $style ); ?>"
+		<?php if ( ! $inline ) : ?>
+			role="region"
+			aria-label="<?php echo esc_attr( $region_label ); ?>"
+			aria-live="polite"
+		<?php endif; ?>
 	>
 		<div class="hld-bar__inner">
 			<?php echo $body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_kses()'d above via hrld_bar_body_allowed_html(). ?>
 		</div>
 		<?php if ( $dismissible ) : ?>
-			<button type="button" class="hld-bar__dismiss" aria-label="<?php esc_attr_e( 'Dismiss', 'heralda' ); ?>">&times;</button>
+			<button type="button" class="hld-bar__dismiss" aria-label="<?php esc_attr_e( 'Dismiss announcement', 'heralda' ); ?>">&times;</button>
 		<?php endif; ?>
 	</div>
 	<?php

@@ -150,6 +150,20 @@
 	line-height: 1;
 	cursor: pointer;
 	padding: 0.2em 0.4em;
+	/* WCAG 2.5.8 minimum target size. */
+	min-width: 24px;
+	min-height: 24px;
+}
+
+/*
+ * Keyboard focus drawn in the bar's own text color, so it stays visible on
+ * every preset instead of relying on a theme outline that may vanish
+ * against the bar background.
+ */
+.hld-bar__dismiss:focus-visible,
+.hld-bar__cta:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
 }
 
 body {
@@ -427,7 +441,16 @@ body {
 @media (prefers-reduced-motion: reduce) {
 	.hld-bar--icon-pulse .hld-bar__icon,
 	.hld-bar--icon-wiggle .hld-bar__icon,
-	.hld-bar--icon-bounce .hld-bar__icon {
+	.hld-bar--icon-bounce .hld-bar__icon,
+	.hld-bar--anim-slide.hld-bar--top,
+	.hld-bar--anim-slide.hld-bar--bottom,
+	.hld-bar--anim-slide.hld-bar--inline,
+	.hld-bar.hld-bar--anim-fade {
 		animation: none;
+	}
+
+	.hld-bar,
+	body {
+		transition: none;
 	}
 }

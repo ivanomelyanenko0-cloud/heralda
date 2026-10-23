@@ -1,9 +1,9 @@
 === Heralda ===
 Contributors: lukystile
-Tags: announcement bar, notification bar, sticky bar, promo bar, countdown
+Tags: announcement bar, notification bar, promo bar, countdown, accessibility
 Requires at least: 5.9
 Tested up to: 7.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -78,6 +78,18 @@ In the visitor's browser, via `localStorage`. Nothing is stored on the server or
 
 Yes, use the `[heralda_bar id="123"]` shortcode with the ID of the bar you want to embed.
 
+= Is Heralda accessible? =
+
+Accessibility is built into the free plugin, not sold as an extra:
+
+* Screen readers announce the bar as a labelled "Announcement" region, so it can be found from the landmarks list wherever it sits on screen.
+* The close button works with the keyboard (Tab, then Enter or Space), has a visible focus outline in the bar's own text color, and is at least 24 by 24 pixels.
+* The countdown timer is not read out every second.
+* Visitors who turn on reduced motion in their system settings get no slide, fade, or icon animations.
+* All 16 color presets meet WCAG AA contrast (4.5:1) for normal text.
+
+Your own custom colors and the text you write are up to you, so check their contrast too.
+
 == Screenshots ==
 
 1. Minimal design preset - a quiet, full-width announcement bar.
@@ -87,6 +99,13 @@ Yes, use the `[heralda_bar id="123"]` shortcode with the ID of the bar you want 
 5. Promo design preset - a Pill bar with a live countdown.
 
 == Changelog ==
+
+= 1.1.1 =
+* Accessibility: a top or bottom bar is now a labelled "Announcement" region for screen readers, and changes to its content are announced politely.
+* Accessibility: the countdown timer is no longer read out by screen readers every second.
+* Accessibility: the close button shows a clear focus outline when reached with the keyboard, is at least 24 by 24 pixels, and is labelled "Dismiss announcement".
+* Accessibility: visitors who turn on reduced motion no longer see the bar slide or fade in.
+* For developers: new `hrld_bar_region_label` filter for the region's accessible name.
 
 = 1.1.0 =
 * 6 new color presets: Midnight, Teal, Rose, Indigo, Sand, and Forest (16 total).

@@ -1,6 +1,6 @@
-=== Heralda ===
+=== Heralda – Announcement Bar & Notification Bar ===
 Contributors: lukystile
-Tags: announcement bar, notification bar, promo bar, countdown, accessibility
+Tags: announcement bar, notification bar, top bar, promo bar, countdown
 Requires at least: 5.9
 Tested up to: 7.1
 Stable tag: 1.1.1
@@ -8,21 +8,23 @@ Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Show a sticky announcement or promo bar, schedule when it runs, target which pages see it, and let visitors dismiss it - no page builder, no bloat.
+Sticky announcement bar and notification bar for WordPress: top or bottom bar with countdown timer, scheduling, page targeting and a close button.
 
 == Description ==
 
 A message that matters gets lost in a sidebar widget or ignored as just another popup. **Heralda puts it where visitors actually look** - a sticky bar at the top or bottom of your site, gone the moment it's no longer useful.
 
+**Heralda** is a lightweight announcement bar and notification bar plugin for WordPress. Use it as a top bar for site-wide news, a promo bar for a sale with a countdown timer, or a header banner for a maintenance notice. Schedule when it shows, pick the pages it appears on, and let visitors dismiss it with one click. It works with any theme, needs no page builder, and loads nothing on pages where no bar is shown.
+
 **[Try the live demo](https://founder.cognitolab.net/heralda-demo/index.html)** — a real WordPress site with a sample bar already published, no install needed.
 
-= What you can announce =
+= What you can put in the bar =
 
 * **Announcements** — site-wide notices, maintenance windows, or news.
-* **Promotions** — time-limited offers with a built-in countdown timer.
+* **Promotions** — a sale or discount code in a promo bar, with a built-in countdown timer for time-limited offers.
 * **One bar at a time** — if several bars are eligible to show, Heralda shows the most recently published one, so your site never looks cluttered with competing banners.
 
-= Looks good in one click =
+= Notification bar designs in one click =
 
 * **5 design presets** (Minimal, Bold, Corporate, Playful, Promo) that set a matching style in one click. Everything stays editable afterwards.
 * **16 colour presets**, every one readable (WCAG AA contrast), or pick your own with the custom colour pickers.
@@ -61,6 +63,18 @@ This plugin does not connect to any external service. No data leaves your site. 
 4. Set its type, position, colors, schedule, and target pages, then publish it.
 
 == Frequently Asked Questions ==
+
+= How do I add an announcement bar to WordPress? =
+
+Install and activate Heralda, go to **Heralda Bars → Add New**, write your message, pick a design preset and publish. The bar shows at the top of your site straight away. You can move it to the bottom, schedule it or limit it to certain pages in the same screen.
+
+= Can I add a countdown timer to the bar? =
+
+Yes. Choose the Promo bar type and set an end date: the bar shows a live countdown, which is useful for sales, launches and early-bird deadlines.
+
+= Can I show the bar only on certain pages? =
+
+Yes. Each bar can show site-wide or only on the pages you pick, and a start and end date make it appear and disappear on its own.
 
 = Can I show more than one bar at the same time? =
 

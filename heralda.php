@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Heralda
+ * Plugin Name:       Heralda – Announcement Bar & Notification Bar
  * Plugin URI:        https://cognitolab.net/products/heralda
  * Description:       A lightweight sticky announcement / promo bar for the top or bottom of your site.
  * Version:           1.1.1

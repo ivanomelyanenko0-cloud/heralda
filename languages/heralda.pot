@@ -2,12 +2,594 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Heralda 1.0.0\n"
+"Project-Id-Version: Heralda – Announcement Bar & Notification Bar 1.1.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/heralda\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-12T00:00:00+00:00\n"
+"POT-Creation-Date: 2026-11-08T00:40:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.x (placeholder - regenerate with `wp i18n make-pot .` before release)\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: heralda\n"
+
+#. Plugin Name of the plugin
+msgid "Heralda – Announcement Bar & Notification Bar"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://cognitolab.net/products/heralda"
+msgstr ""
+
+#. Description of the plugin
+msgid "A lightweight sticky announcement / promo bar for the top or bottom of your site."
+msgstr ""
+
+#. Author of the plugin
+msgid "CognitoLab"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://cognitolab.net"
+msgstr ""
+
+#: includes/content-templates.php:47
+msgid "Text only"
+msgstr ""
+
+#: includes/content-templates.php:48
+#: includes/content-templates.php:52
+msgid "Your announcement text goes here."
+msgstr ""
+
+#: includes/content-templates.php:51
+msgid "Text + badge icon"
+msgstr ""
+
+#: includes/content-templates.php:52
+msgid "Replace with your badge/logo image"
+msgstr ""
+
+#: includes/content-templates.php:55
+msgid "Text + highlights list"
+msgstr ""
+
+#: includes/content-templates.php:56
+msgid "Why choose us:"
+msgstr ""
+
+#: includes/content-templates.php:56
+msgid "Free shipping over $50"
+msgstr ""
+
+#: includes/content-templates.php:56
+msgid "30-day returns"
+msgstr ""
+
+#: includes/content-templates.php:56
+msgid "24/7 support"
+msgstr ""
+
+#: includes/cpt.php:12
+#: includes/cpt.php:22
+msgid "Heralda Bars"
+msgstr ""
+
+#: includes/cpt.php:13
+msgid "Heralda Bar"
+msgstr ""
+
+#: includes/cpt.php:14
+msgid "Add New"
+msgstr ""
+
+#: includes/cpt.php:15
+msgid "Add New Bar"
+msgstr ""
+
+#: includes/cpt.php:16
+msgid "Edit Bar"
+msgstr ""
+
+#: includes/cpt.php:17
+msgid "New Bar"
+msgstr ""
+
+#: includes/cpt.php:18
+msgid "View Bar"
+msgstr ""
+
+#: includes/cpt.php:19
+msgid "Search Bars"
+msgstr ""
+
+#: includes/cpt.php:20
+msgid "No bars found."
+msgstr ""
+
+#: includes/cpt.php:21
+msgid "No bars found in Trash."
+msgstr ""
+
+#: includes/decorations.php:24
+msgid "Dark"
+msgstr ""
+
+#: includes/decorations.php:29
+msgid "Light"
+msgstr ""
+
+#: includes/decorations.php:34
+msgid "Royal Blue"
+msgstr ""
+
+#: includes/decorations.php:39
+msgid "Emerald"
+msgstr ""
+
+#: includes/decorations.php:44
+msgid "Crimson"
+msgstr ""
+
+#: includes/decorations.php:49
+msgid "Violet"
+msgstr ""
+
+#: includes/decorations.php:54
+msgid "Amber"
+msgstr ""
+
+#: includes/decorations.php:59
+msgid "Slate"
+msgstr ""
+
+#: includes/decorations.php:64
+msgid "Terracotta"
+msgstr ""
+
+#: includes/decorations.php:69
+msgid "Sage"
+msgstr ""
+
+#: includes/decorations.php:74
+msgid "Midnight"
+msgstr ""
+
+#: includes/decorations.php:79
+msgid "Teal"
+msgstr ""
+
+#: includes/decorations.php:84
+msgid "Rose"
+msgstr ""
+
+#: includes/decorations.php:89
+msgid "Indigo"
+msgstr ""
+
+#: includes/decorations.php:94
+msgid "Sand"
+msgstr ""
+
+#: includes/decorations.php:99
+msgid "Forest"
+msgstr ""
+
+#: includes/decorations.php:115
+msgid "Megaphone"
+msgstr ""
+
+#: includes/decorations.php:119
+msgid "Bell"
+msgstr ""
+
+#: includes/decorations.php:123
+msgid "Gift"
+msgstr ""
+
+#: includes/decorations.php:127
+msgid "Star"
+msgstr ""
+
+#: includes/decorations.php:131
+msgid "Fire"
+msgstr ""
+
+#: includes/decorations.php:135
+msgid "Tag"
+msgstr ""
+
+#: includes/decorations.php:139
+msgid "Info"
+msgstr ""
+
+#: includes/decorations.php:147
+msgid "Full-width (edge to edge)"
+msgstr ""
+
+#: includes/decorations.php:148
+msgid "Floating (inset, rounded, shadow)"
+msgstr ""
+
+#: includes/decorations.php:149
+msgid "Pill (inset, fully rounded, shadow)"
+msgstr ""
+
+#: includes/decorations.php:163
+#: includes/decorations.php:181
+#: includes/decorations.php:197
+#: includes/meta-boxes.php:325
+msgid "None"
+msgstr ""
+
+#: includes/decorations.php:164
+msgid "Thin"
+msgstr ""
+
+#: includes/decorations.php:165
+msgid "Thick"
+msgstr ""
+
+#: includes/decorations.php:166
+msgid "Dashed"
+msgstr ""
+
+#: includes/decorations.php:167
+msgid "Accent line on the inner edge"
+msgstr ""
+
+#: includes/decorations.php:173
+msgid "Outline"
+msgstr ""
+
+#: includes/decorations.php:174
+msgid "Solid"
+msgstr ""
+
+#: includes/decorations.php:175
+msgid "Pill"
+msgstr ""
+
+#: includes/decorations.php:182
+msgid "Slide in"
+msgstr ""
+
+#: includes/decorations.php:183
+msgid "Fade in"
+msgstr ""
+
+#: includes/decorations.php:198
+msgid "Pulse"
+msgstr ""
+
+#: includes/decorations.php:199
+msgid "Wiggle"
+msgstr ""
+
+#: includes/decorations.php:200
+msgid "Bounce"
+msgstr ""
+
+#: includes/decorations.php:206
+msgid "Center"
+msgstr ""
+
+#: includes/decorations.php:207
+msgid "Left"
+msgstr ""
+
+#: includes/decorations.php:208
+msgid "Right"
+msgstr ""
+
+#: includes/decorations.php:221
+msgid "Inline, next to the text"
+msgstr ""
+
+#: includes/decorations.php:222
+msgid "Right edge of the bar"
+msgstr ""
+
+#: includes/decorations.php:223
+msgid "Below the text"
+msgstr ""
+
+#: includes/decorations.php:239
+msgid "Default (matches your theme)"
+msgstr ""
+
+#: includes/decorations.php:240
+msgid "Sans-serif"
+msgstr ""
+
+#: includes/decorations.php:241
+msgid "Serif"
+msgstr ""
+
+#: includes/decorations.php:242
+msgid "Monospace"
+msgstr ""
+
+#: includes/decorations.php:243
+msgid "Bold condensed (display)"
+msgstr ""
+
+#: includes/decorations.php:267
+msgid "Normal"
+msgstr ""
+
+#: includes/decorations.php:268
+#: includes/decorations.php:302
+msgid "Bold"
+msgstr ""
+
+#: includes/decorations.php:269
+msgid "Uppercase, spaced out"
+msgstr ""
+
+#: includes/decorations.php:270
+msgid "Italic"
+msgstr ""
+
+#: includes/decorations.php:292
+msgid "Minimal"
+msgstr ""
+
+#: includes/decorations.php:312
+msgid "Corporate"
+msgstr ""
+
+#: includes/decorations.php:322
+msgid "Playful"
+msgstr ""
+
+#: includes/decorations.php:332
+msgid "Promo"
+msgstr ""
+
+#: includes/enqueue.php:65
+msgid "Offer expired"
+msgstr ""
+
+#: includes/meta-boxes.php:23
+#: includes/render.php:192
+msgid "Announcement"
+msgstr ""
+
+#: includes/meta-boxes.php:24
+msgid "Promo (with countdown)"
+msgstr ""
+
+#: includes/meta-boxes.php:49
+msgid "Bar Settings"
+msgstr ""
+
+#: includes/meta-boxes.php:81
+msgid "Replace current content with this template? This cannot be undone."
+msgstr ""
+
+#. translators: %s: contrast ratio, e.g. "7.2:1"
+#: includes/meta-boxes.php:96
+msgid "Text contrast %s: readable (WCAG AA needs at least 4.5:1)."
+msgstr ""
+
+#. translators: %s: contrast ratio, e.g. "2.9:1"
+#: includes/meta-boxes.php:98
+msgid "Text contrast %s is below 4.5:1 (WCAG AA). Some visitors, especially on a phone in sunlight or with low vision, won't be able to read this bar. You can still save it."
+msgstr ""
+
+#. translators: %s: lowest contrast ratio across the background, e.g. "2.9:1"
+#: includes/meta-boxes.php:100
+msgid "Text contrast drops to %s on part of the background, below 4.5:1 (WCAG AA). Some visitors won't be able to read that part of the bar. You can still save it."
+msgstr ""
+
+#: includes/meta-boxes.php:101
+msgid "No single text color is readable on every part of this background. Choose a background with less difference between its lightest and darkest parts."
+msgstr ""
+
+#: includes/meta-boxes.php:102
+msgid "Contrast can't be checked automatically for this background. Check by eye that the text is easy to read."
+msgstr ""
+
+#: includes/meta-boxes.php:123
+msgid "Start from a template:"
+msgstr ""
+
+#: includes/meta-boxes.php:129
+msgid "Inserts starting content into the editor below - replace the placeholder text/image, then use Bar Settings for colors, icon, and CTA."
+msgstr ""
+
+#: includes/meta-boxes.php:237
+msgid "Live preview"
+msgstr ""
+
+#: includes/meta-boxes.php:243
+msgid "Updates as you change settings and content below. The countdown (Promo type) and entrance animation are not simulated here."
+msgstr ""
+
+#: includes/meta-boxes.php:246
+msgid "Use the nearest readable text color"
+msgstr ""
+
+#: includes/meta-boxes.php:251
+msgid "Type"
+msgstr ""
+
+#: includes/meta-boxes.php:261
+msgid "Position"
+msgstr ""
+
+#: includes/meta-boxes.php:264
+msgid "Top"
+msgstr ""
+
+#: includes/meta-boxes.php:265
+msgid "Bottom"
+msgstr ""
+
+#: includes/meta-boxes.php:269
+msgid "Sticky"
+msgstr ""
+
+#: includes/meta-boxes.php:274
+msgid "Design preset"
+msgstr ""
+
+#: includes/meta-boxes.php:283
+msgid "One-click starting point: fills in the color, style, font, and animation fields below. You can still change any of them afterward."
+msgstr ""
+
+#: includes/meta-boxes.php:287
+msgid "Color preset"
+msgstr ""
+
+#: includes/meta-boxes.php:293
+msgid "Custom"
+msgstr ""
+
+#: includes/meta-boxes.php:303
+msgid "Pick a ready-made combo, or choose Custom to use the color pickers below."
+msgstr ""
+
+#: includes/meta-boxes.php:307
+msgid "Colors"
+msgstr ""
+
+#: includes/meta-boxes.php:310
+msgid "Background"
+msgstr ""
+
+#: includes/meta-boxes.php:314
+#: includes/meta-boxes.php:483
+msgid "Text"
+msgstr ""
+
+#: includes/meta-boxes.php:320
+msgid "Icon"
+msgstr ""
+
+#: includes/meta-boxes.php:338
+msgid "Icon animation"
+msgstr ""
+
+#: includes/meta-boxes.php:345
+msgid "Plays a few times when the bar appears, then stops. Skipped for visitors who turn on reduced motion in their system settings."
+msgstr ""
+
+#: includes/meta-boxes.php:349
+msgid "Bar style"
+msgstr ""
+
+#: includes/meta-boxes.php:359
+msgid "Border"
+msgstr ""
+
+#: includes/meta-boxes.php:366
+msgid "Drawn in the bar's text color."
+msgstr ""
+
+#: includes/meta-boxes.php:370
+msgid "CTA button style"
+msgstr ""
+
+#: includes/meta-boxes.php:380
+msgid "Entrance animation"
+msgstr ""
+
+#: includes/meta-boxes.php:390
+msgid "Text alignment"
+msgstr ""
+
+#: includes/meta-boxes.php:400
+msgid "CTA position"
+msgstr ""
+
+#: includes/meta-boxes.php:407
+msgid "Where the button sits relative to the message - independent of Text alignment above."
+msgstr ""
+
+#: includes/meta-boxes.php:411
+msgid "Font"
+msgstr ""
+
+#: includes/meta-boxes.php:421
+msgid "Text style"
+msgstr ""
+
+#: includes/meta-boxes.php:431
+msgid "Dismissible"
+msgstr ""
+
+#: includes/meta-boxes.php:435
+msgid "Visitors can dismiss this bar"
+msgstr ""
+
+#: includes/meta-boxes.php:439
+msgid "Stay hidden for (days):"
+msgstr ""
+
+#: includes/meta-boxes.php:442
+msgid "Use 0 to hide it only until the visitor closes their browser."
+msgstr ""
+
+#: includes/meta-boxes.php:446
+msgid "Schedule"
+msgstr ""
+
+#: includes/meta-boxes.php:449
+msgid "Start"
+msgstr ""
+
+#: includes/meta-boxes.php:453
+msgid "End"
+msgstr ""
+
+#: includes/meta-boxes.php:456
+msgid "Leave blank for no start/end limit. Promo countdown timers count down to the End date."
+msgstr ""
+
+#: includes/meta-boxes.php:460
+msgid "Target Pages"
+msgstr ""
+
+#: includes/meta-boxes.php:464
+msgid "All pages"
+msgstr ""
+
+#: includes/meta-boxes.php:474
+msgid "No pages found."
+msgstr ""
+
+#: includes/meta-boxes.php:480
+msgid "CTA Button"
+msgstr ""
+
+#: includes/meta-boxes.php:488
+msgid "URL"
+msgstr ""
+
+#: includes/render.php:209
+msgid "Dismiss announcement"
+msgstr ""
+
+#: includes/settings.php:26
+#: includes/settings.php:41
+msgid "Heralda Settings"
+msgstr ""
+
+#: includes/settings.php:27
+msgid "Settings"
+msgstr ""
+
+#: includes/settings.php:46
+msgid "Uninstall"
+msgstr ""
+
+#: includes/settings.php:50
+msgid "Remove all Heralda bars and data when the plugin is deleted"
+msgstr ""
+
+#: includes/settings.php:52
+msgid "Unchecked by default - your bars are kept if you deactivate/delete the plugin by mistake."
+msgstr ""

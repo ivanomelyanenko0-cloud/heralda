@@ -87,6 +87,21 @@ function hrld_enqueue_admin_assets() {
 		'heraldaDesignPresets',
 		array( 'presets' => hrld_get_design_presets() )
 	);
+
+	wp_localize_script(
+		'hld-admin',
+		'heraldaContrastL10n',
+		array(
+			/* translators: %s: contrast ratio, e.g. "7.2:1" */
+			'pass'       => __( 'Text contrast %s: readable (WCAG AA needs at least 4.5:1).', 'heralda' ),
+			/* translators: %s: contrast ratio, e.g. "2.9:1" */
+			'fail'       => __( 'Text contrast %s is below 4.5:1 (WCAG AA). Some visitors, especially on a phone in sunlight or with low vision, won\'t be able to read this bar. You can still save it.', 'heralda' ),
+			/* translators: %s: lowest contrast ratio across the background, e.g. "2.9:1" */
+			'failMulti'  => __( 'Text contrast drops to %s on part of the background, below 4.5:1 (WCAG AA). Some visitors won\'t be able to read that part of the bar. You can still save it.', 'heralda' ),
+			'noFix'      => __( 'No single text color is readable on every part of this background. Choose a background with less difference between its lightest and darkest parts.', 'heralda' ),
+			'unknown'    => __( 'Contrast can\'t be checked automatically for this background. Check by eye that the text is easy to read.', 'heralda' ),
+		)
+	);
 }
 add_action( 'admin_enqueue_scripts', 'hrld_enqueue_admin_assets' );
 
@@ -226,6 +241,10 @@ function hrld_render_meta_box( $post ) {
 			</div>
 		</div>
 		<p class="description"><?php esc_html_e( 'Updates as you change settings and content below. The countdown (Promo type) and entrance animation are not simulated here.', 'heralda' ); ?></p>
+		<div id="hrld_contrast_notice" class="hld-contrast" aria-live="polite" hidden>
+			<p class="hld-contrast__message"></p>
+			<button type="button" class="button hld-contrast__fix" hidden><?php esc_html_e( 'Use the nearest readable text color', 'heralda' ); ?></button>
+		</div>
 	</div>
 	<table class="form-table hld-meta-box">
 		<tr>

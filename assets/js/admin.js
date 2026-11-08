@@ -1,5 +1,5 @@
 /**
- * Heralda admin metabox UX: color pickers + "all pages" toggle.
+ * Heralda admin metabox UX: color pickers, contrast check, "all pages" toggle.
  */
 ( function ( $ ) {
 	'use strict';
@@ -13,8 +13,135 @@
 	// order.
 	window.heraldaPreviewFilters = window.heraldaPreviewFilters || [];
 
+	// WCAG 2.x contrast math, shared with Heralda Pro (gradient stops) via
+	// window.heraldaContrast. Colors come in as #rgb, #rrggbb or rgb()/rgba()
+	// strings (the preset swatches report computed rgb() values).
+	var AA_RATIO = 4.5;
+
+	function parseColor( value ) {
+		var v = $.trim( String( value || '' ) ).toLowerCase();
+		var m = v.match( /^#([0-9a-f]{3}|[0-9a-f]{6})$/ );
+		if ( m ) {
+			var hex = 3 === m[ 1 ].length ? m[ 1 ].replace( /(.)/g, '$1$1' ) : m[ 1 ];
+			return [ parseInt( hex.substr( 0, 2 ), 16 ), parseInt( hex.substr( 2, 2 ), 16 ), parseInt( hex.substr( 4, 2 ), 16 ) ];
+		}
+		m = v.match( /^rgba?\(\s*(\d{1,3})[\s,]+(\d{1,3})[\s,]+(\d{1,3})(?:[\s,\/]+([\d.]+%?))?\s*\)$/ );
+		if ( m ) {
+			if ( undefined !== m[ 4 ] && parseFloat( m[ 4 ] ) < ( -1 !== m[ 4 ].indexOf( '%' ) ? 100 : 1 ) ) {
+				return null; // A see-through color depends on what is behind it.
+			}
+			return [ Math.min( 255, +m[ 1 ] ), Math.min( 255, +m[ 2 ] ), Math.min( 255, +m[ 3 ] ) ];
+		}
+		return null;
+	}
+
+	function luminance( rgb ) {
+		var c = rgb.map( function ( channel ) {
+			var s = channel / 255;
+			return s <= 0.04045 ? s / 12.92 : Math.pow( ( s + 0.055 ) / 1.055, 2.4 );
+		} );
+		return 0.2126 * c[ 0 ] + 0.7152 * c[ 1 ] + 0.0722 * c[ 2 ];
+	}
+
+	function ratio( a, b ) {
+		var la = luminance( a );
+		var lb = luminance( b );
+		return ( Math.max( la, lb ) + 0.05 ) / ( Math.min( la, lb ) + 0.05 );
+	}
+
+	function minRatio( text, backgrounds ) {
+		return Math.min.apply( null, backgrounds.map( function ( bg ) {
+			return ratio( text, bg );
+		} ) );
+	}
+
+	function toHex( rgb ) {
+		return '#' + rgb.map( function ( c ) {
+			return ( '0' + Math.round( c ).toString( 16 ) ).slice( -2 );
+		} ).join( '' );
+	}
+
+	function rgbToHsl( rgb ) {
+		var r = rgb[ 0 ] / 255, g = rgb[ 1 ] / 255, b = rgb[ 2 ] / 255;
+		var max = Math.max( r, g, b ), min = Math.min( r, g, b );
+		var h = 0, s = 0, l = ( max + min ) / 2;
+		if ( max !== min ) {
+			var d = max - min;
+			s = l > 0.5 ? d / ( 2 - max - min ) : d / ( max + min );
+			if ( max === r ) {
+				h = ( g - b ) / d + ( g < b ? 6 : 0 );
+			} else if ( max === g ) {
+				h = ( b - r ) / d + 2;
+			} else {
+				h = ( r - g ) / d + 4;
+			}
+			h /= 6;
+		}
+		return [ h, s, l ];
+	}
+
+	function hslToRgb( hsl ) {
+		var h = hsl[ 0 ], s = hsl[ 1 ], l = hsl[ 2 ];
+		if ( 0 === s ) {
+			return [ l * 255, l * 255, l * 255 ];
+		}
+		function hue( p, q, t ) {
+			if ( t < 0 ) { t += 1; }
+			if ( t > 1 ) { t -= 1; }
+			if ( t < 1 / 6 ) { return p + ( q - p ) * 6 * t; }
+			if ( t < 1 / 2 ) { return q; }
+			if ( t < 2 / 3 ) { return p + ( q - p ) * ( 2 / 3 - t ) * 6; }
+			return p;
+		}
+		var q = l < 0.5 ? l * ( 1 + s ) : l + s - l * s;
+		var p = 2 * l - q;
+		return [ hue( p, q, h + 1 / 3 ) * 255, hue( p, q, h ) * 255, hue( p, q, h - 1 / 3 ) * 255 ];
+	}
+
+	// The readable text color closest to the current one: same hue and
+	// saturation, lightness moved the shortest distance (darker or lighter)
+	// that reaches AA on every background. null when no lightness works.
+	function nearestReadable( text, backgrounds ) {
+		var hsl = rgbToHsl( text );
+		var best = null;
+		[ -1, 1 ].forEach( function ( dir ) {
+			for ( var step = 1; step <= 100; step++ ) {
+				var l = hsl[ 2 ] + dir * step / 100;
+				if ( l < 0 || l > 1 ) {
+					break;
+				}
+				var rgb = hslToRgb( [ hsl[ 0 ], hsl[ 1 ], l ] ).map( Math.round );
+				if ( minRatio( rgb, backgrounds ) >= AA_RATIO ) {
+					if ( ! best || step < best.step ) {
+						best = { step: step, rgb: rgb };
+					}
+					break;
+				}
+			}
+		} );
+		return best ? best.rgb : null;
+	}
+
+	window.heraldaContrast = { parse: parseColor, ratio: ratio, minRatio: minRatio, AA: AA_RATIO };
+
 	$( function () {
-		$( '.hld-color-field' ).wpColorPicker();
+		// Iris reports drag changes through this callback, not as a change
+		// event on the input, and updates the input's value only afterwards.
+		$( '.hld-color-field' ).wpColorPicker( {
+			change: function ( event ) {
+				var input = event.target;
+				setTimeout( function () {
+					$( input ).trigger( 'hld:color' );
+				}, 0 );
+			},
+			clear: function () {
+				setTimeout( function () {
+					if ( window.hldRebuildPreview ) {
+						window.hldRebuildPreview();
+					}
+				}, 0 );
+			}
+		} );
 
 		var $allToggle = $( '#hrld_target_all' );
 		var $list      = $( '#hrld_target_pages_list' );
@@ -207,7 +334,10 @@
 			// the PHP side appends its own `background:` after Free's rather
 			// than replacing it, so a gradient there doesn't touch the solid
 			// color computed into --hld-bg from get_post_meta() either.
-			var state = { classes: classes, bg: colors.bg, text: colors.text, innerHtml: inner, bgLayer: '' };
+			// contrastBackgrounds: every color the text can sit on. A filter
+			// that paints a gradient (Pro) replaces it with the gradient's
+			// stops, or sets contrastUnknown when it can't read them.
+			var state = { classes: classes, bg: colors.bg, text: colors.text, innerHtml: inner, bgLayer: '', contrastBackgrounds: [ colors.bg ], contrastUnknown: false };
 			$.each( window.heraldaPreviewFilters, function ( i, fn ) {
 				fn( state );
 			} );
@@ -235,7 +365,70 @@
 				$bar.css( 'background', state.bgLayer );
 			}
 			$( '#hrld_preview_inner' ).html( state.innerHtml );
+			hldUpdateContrastNotice( state );
 		}
+
+		var l10n = window.heraldaContrastL10n || {};
+		var $notice = $( '#hrld_contrast_notice' );
+		var fixColor = null;
+
+		function formatRatio( value ) {
+			return ( Math.floor( value * 10 ) / 10 ).toFixed( 1 ) + ':1';
+		}
+
+		function hldUpdateContrastNotice( state ) {
+			var $message = $notice.find( '.hld-contrast__message' );
+			var $fix = $notice.find( '.hld-contrast__fix' );
+			var text = parseColor( state.text );
+			var backgrounds = $.map( state.contrastBackgrounds || [], function ( bg ) {
+				var rgb = parseColor( bg );
+				return rgb ? [ rgb ] : null;
+			} );
+
+			fixColor = null;
+			$notice.prop( 'hidden', false ).removeClass( 'is-failing' );
+			$fix.prop( 'hidden', true );
+
+			if ( state.contrastUnknown || ! text || ! backgrounds.length ) {
+				$message.text( l10n.unknown || '' );
+				return;
+			}
+
+			var lowest = minRatio( text, backgrounds );
+			if ( lowest >= AA_RATIO ) {
+				$message.text( ( l10n.pass || '%s' ).replace( '%s', formatRatio( lowest ) ) );
+				return;
+			}
+
+			$notice.addClass( 'is-failing' );
+			var message = ( ( backgrounds.length > 1 ? l10n.failMulti : l10n.fail ) || '%s' ).replace( '%s', formatRatio( lowest ) );
+			fixColor = nearestReadable( text, backgrounds );
+			if ( fixColor ) {
+				$fix.prop( 'hidden', false );
+			} else {
+				message += ' ' + ( l10n.noFix || '' );
+			}
+			$message.text( message );
+		}
+
+		$notice.on( 'click', '.hld-contrast__fix', function () {
+			if ( ! fixColor ) {
+				return;
+			}
+			var bg = parseColor( hldPreviewColors().bg );
+			var newText = toHex( fixColor );
+			// A preset's colors live in the preset, not in the fields, so switch to Custom and carry the preset's background over.
+			var $custom = $( '#hrld_color_swatches input[value=""]' );
+			if ( ! $custom.is( ':checked' ) ) {
+				$custom.prop( 'checked', true ).trigger( 'change' );
+				if ( bg ) {
+					$( 'input[name="_hrld_bg_color"]' ).wpColorPicker( 'color', toHex( bg ) );
+				}
+			}
+			$( 'input[name="_hrld_text_color"]' ).wpColorPicker( 'color', newText );
+			hldRebuildPreview();
+			$( 'input[name="_hrld_text_color"]' ).closest( '.wp-picker-container' ).find( '.wp-color-result' ).trigger( 'focus' );
+		} );
 
 		// Exposed so Pro's own field listeners can trigger a refresh without
 		// this file needing to know which Pro fields exist.
@@ -245,7 +438,7 @@
 		// 'tinymce-editor-setup' event WP fires for each editor instance,
 		// not at document-ready time.
 		$( '#hrld_color_swatches, .hld-swatches--icons' ).on( 'change', 'input[type="radio"]', hldRebuildPreview );
-		$( '.hld-color-field' ).on( 'change', hldRebuildPreview );
+		$( '.hld-color-field' ).on( 'change hld:color', hldRebuildPreview );
 		$( '#hrld_bar_style, #hrld_cta_style, #hrld_animation, #hrld_align, #hrld_cta_position, #hrld_font, #hrld_text_style, #hrld_border, #hrld_icon_animation, #hrld_type, #hrld_dismissible' ).on( 'change', hldRebuildPreview );
 		$( 'input[name="_hrld_cta_text"], input[name="_hrld_cta_url"]' ).on( 'input', hldRebuildPreview );
 		$( '#content' ).on( 'input', hldRebuildPreview );

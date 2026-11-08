@@ -3,7 +3,7 @@ Contributors: lukystile
 Tags: announcement bar, notification bar, top bar, promo bar, countdown
 Requires at least: 5.9
 Tested up to: 7.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -27,7 +27,7 @@ A message that matters gets lost in a sidebar widget or ignored as just another 
 = Notification bar designs in one click =
 
 * **5 design presets** (Minimal, Bold, Corporate, Playful, Promo) that set a matching style in one click. Everything stays editable afterwards.
-* **16 colour presets**, every one readable (WCAG AA contrast), or pick your own with the custom colour pickers.
+* **16 colour presets**, every one readable (WCAG AA contrast), or pick your own with the custom colour pickers. A built-in contrast checker warns when your own colours are hard to read and finds the nearest readable text colour in one click.
 * **3 bar styles**: Full-width, Floating (inset with shadow), or Pill (fully rounded), with an optional border: thin, thick, dashed, or an accent line on the inner edge.
 * **CTA button styles** (Outline, Solid, Pill) and position (inline next to the text, right edge of the bar, or below the text).
 * **7 built-in icons** with an optional pulse, wiggle or bounce that plays a few times and stops, entrance animation (slide-in or fade-in), and left/centre/right text alignment.
@@ -101,8 +101,9 @@ Accessibility is built into the free plugin, not sold as an extra:
 * The countdown timer is not read out every second.
 * Visitors who turn on reduced motion in their system settings get no slide, fade, or icon animations.
 * All 16 color presets meet WCAG AA contrast (4.5:1) for normal text.
+* A contrast checker under the live preview shows the ratio of your text and background colours, warns below 4.5:1, and offers the nearest readable text colour. It never blocks saving.
 
-Your own custom colors and the text you write are up to you, so check their contrast too.
+The checker covers your own colors too. Colors inside the text you write (for example a highlighted word) aren't checked, so keep an eye on those.
 
 == Screenshots ==
 
@@ -113,6 +114,11 @@ Your own custom colors and the text you write are up to you, so check their cont
 5. Promo design preset - a Pill bar with a live countdown.
 
 == Changelog ==
+
+= 1.1.2 =
+* New: contrast checker. Under the live preview, Heralda shows how readable the bar's text is against its background and warns when it falls below WCAG AA (4.5:1).
+* New: "Use the nearest readable text color" button keeps your color's hue and adjusts only its lightness, as little as needed to pass. Saving is never blocked.
+* For developers: the live preview's filter state now carries `contrastBackgrounds` and `contrastUnknown`, so an extension that paints its own background (such as a gradient) can have it checked too.
 
 = 1.1.1 =
 * Accessibility: a top or bottom bar is now a labelled "Announcement" region for screen readers, and changes to its content are announced politely.

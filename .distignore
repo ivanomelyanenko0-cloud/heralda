@@ -1,0 +1,14 @@
+.distignore
+.editorconfig
+.git
+.gitattributes
+.gitignore
+.wordpress-org
+node_modules
+composer.json
+composer.lock
+phpunit.xml.dist
+.phpcs.xml.dist
+tests
+Gruntfile.js
+webpack.config.js
